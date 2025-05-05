@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-ios;net6.0-android;net6.0-windows;net6.0-maccatalyst</TargetFramework>
+    <RootNamespace>MobileAttendanceApp</RootNamespace>
+    <AssemblyName>MobileAttendanceApp</AssemblyName>
+    <ApplicationTitle>Mobile Attendance App</ApplicationTitle>
+    <ApplicationId>com.company.mobileattendanceapp</ApplicationId>
+    <UseMaui>true</UseMaui>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\src\App.xaml.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\MainPage.xaml.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\ViewModels\LoginViewModel.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\ViewModels\AttendanceViewModel.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\ViewModels\AdminViewModel.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Models\User.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Models\AttendanceRecord.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Models\Location.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Services\ApiService.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Services\LocationService.cs" />
+    <ProjectReference Include="..\..\..\..\..\..\src\Services\CameraService.cs" />
+  </ItemGroup>
+
+</Project>

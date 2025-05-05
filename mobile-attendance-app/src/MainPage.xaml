@@ -1,0 +1,23 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileAttendanceApp.MainPage"
+             Title="Mobile Attendance App">
+
+    <StackLayout Padding="20">
+        <Label Text="Welcome to the Mobile Attendance App"
+               FontSize="24"
+               HorizontalOptions="Center" />
+
+        <Button Text="Login"
+                Command="{Binding NavigateToLoginCommand}"
+                HorizontalOptions="Center" />
+
+        <Button Text="Record Attendance"
+                Command="{Binding NavigateToAttendanceCommand}"
+                HorizontalOptions="Center" />
+
+        <Button Text="Admin Panel"
+                Command="{Binding NavigateToAdminCommand}"
+                HorizontalOptions="Center" />
+    </StackLayout>
+</ContentPage>

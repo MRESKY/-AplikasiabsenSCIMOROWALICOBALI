@@ -1,0 +1,29 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileAttendanceApp.Views.AttendancePage"
+             Title="Attendance">
+
+    <StackLayout Padding="20">
+        <Label Text="Take Your Attendance" 
+               FontSize="24" 
+               HorizontalOptions="Center" 
+               VerticalOptions="Start" />
+
+        <Image x:Name="SelfieImage" 
+               WidthRequest="200" 
+               HeightRequest="200" 
+               HorizontalOptions="Center" 
+               VerticalOptions="Center" 
+               Aspect="AspectFill" />
+
+        <Button Text="Capture Selfie" 
+                Clicked="OnCaptureSelfieClicked" 
+                HorizontalOptions="Center" 
+                VerticalOptions="Center" />
+
+        <Button Text="Submit Attendance" 
+                Clicked="OnSubmitAttendanceClicked" 
+                HorizontalOptions="Center" 
+                VerticalOptions="End" />
+    </StackLayout>
+</ContentPage>
