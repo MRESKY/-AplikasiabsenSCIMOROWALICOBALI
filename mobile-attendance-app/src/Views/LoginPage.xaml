@@ -3,26 +3,37 @@
              x:Class="MobileAttendanceApp.Views.LoginPage"
              Title="Login">
 
-    <StackLayout Padding="20">
+    <StackLayout Padding="20" Spacing="15">
+        <!-- Judul Halaman -->
         <Label Text="Login"
                FontSize="32"
                HorizontalOptions="Center" />
 
-        <Entry x:Name="UsernameEntry"
-               Placeholder="Username"
+        <!-- Input Username -->
+        <Entry Placeholder="Username"
+               Text="{Binding Username}"
                Keyboard="Text" />
 
-        <Entry x:Name="PasswordEntry"
-               Placeholder="Password"
+        <!-- Input Password -->
+        <Entry Placeholder="Password"
+               Text="{Binding Password}"
                IsPassword="True" />
 
+        <!-- Tombol Login -->
         <Button Text="Login"
                 Command="{Binding LoginCommand}"
                 HorizontalOptions="Center" />
 
-        <Label x:Name="ErrorMessageLabel"
+        <!-- Indikator Loading -->
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+
+        <!-- Pesan Kesalahan -->
+        <Label Text="{Binding ErrorMessage}"
                TextColor="Red"
-               IsVisible="False"
+               IsVisible="{Binding HasError}"
                HorizontalOptions="Center" />
     </StackLayout>
 </ContentPage>

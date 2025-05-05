@@ -6,6 +6,8 @@ namespace MobileAttendanceApp.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
+        private readonly AuthService _authService;
+
         private string username;
         private string password;
         private bool isBusy;
@@ -53,20 +55,46 @@ namespace MobileAttendanceApp.ViewModels
 
         public ICommand LoginCommand { get; }
 
-        public LoginViewModel()
+        public LoginViewModel(AuthService authService)
         {
-            LoginCommand = new Command(OnLogin);
+            _authService = authService;
+            LoginCommand = new Command(async () => await OnLogin());
         }
 
-        private async void OnLogin()
+        private async Task OnLogin()
         {
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            {
+                ErrorMessage = "Username dan Password harus diisi.";
+                return;
+            }
+
             IsBusy = true;
             ErrorMessage = string.Empty;
 
-            // Implement login logic here
-            // Example: Validate credentials and navigate to the next page
-
-            IsBusy = false;
+            try
+            {
+                Console.WriteLine($"Attempting login with Username: {Username}");
+                bool isValid = await _authService.ValidateCredentialsAsync(Username, Password);
+                if (!isValid)
+                {
+                    ErrorMessage = "Username atau Password salah.";
+                }
+                else
+                {
+                    // Navigate to the next page
+                    Console.WriteLine("Login berhasil.");
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Terjadi kesalahan: {ex.Message}";
+                Console.WriteLine($"Error during login: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

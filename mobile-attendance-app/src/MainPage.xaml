@@ -3,21 +3,28 @@
              x:Class="MobileAttendanceApp.MainPage"
              Title="Mobile Attendance App">
 
-    <StackLayout Padding="20">
-        <Label Text="Welcome to the Mobile Attendance App"
+    <Grid Padding="20" RowDefinitions="Auto, Auto, Auto, Auto, *">
+        <!-- Judul Halaman -->
+        <Label Grid.Row="0" Text="Welcome to the Mobile Attendance App"
                FontSize="24"
                HorizontalOptions="Center" />
 
-        <Button Text="Login"
+        <!-- Tombol Login -->
+        <Button Grid.Row="1" Text="Login"
                 Command="{Binding NavigateToLoginCommand}"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                ImageSource="login_icon.png" />
 
-        <Button Text="Record Attendance"
+        <!-- Tombol Record Attendance -->
+        <Button Grid.Row="2" Text="Record Attendance"
                 Command="{Binding NavigateToAttendanceCommand}"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                ImageSource="attendance_icon.png" />
 
-        <Button Text="Admin Panel"
+        <!-- Tombol Admin Panel -->
+        <Button Grid.Row="3" Text="Admin Panel"
                 Command="{Binding NavigateToAdminCommand}"
-                HorizontalOptions="Center" />
-    </StackLayout>
+                HorizontalOptions="Center"
+                ImageSource="admin_icon.png" />
+    </Grid>
 </ContentPage>

@@ -8,21 +8,26 @@
                FontSize="24"
                HorizontalOptions="Center" />
 
-        <ListView x:Name="AttendanceListView"
-                  ItemsSource="{Binding AttendanceRecords}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
+        <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView x:Name="AttendanceCollectionView"
+                            ItemsSource="{Binding AttendanceRecords}">
+                <CollectionView.EmptyView>
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="No attendance records available." FontSize="16" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
                         <StackLayout Orientation="Vertical" Padding="5">
                             <Label Text="{Binding UserId}" FontSize="18" />
                             <Label Text="{Binding Timestamp}" FontSize="14" />
                             <Image Source="{Binding SelfieImage}" HeightRequest="100" />
                             <Label Text="{Binding Location.Latitude}, {Binding Location.Longitude}" FontSize="14" />
                         </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
 
         <Button Text="Refresh Records"
                 Command="{Binding RefreshCommand}" 

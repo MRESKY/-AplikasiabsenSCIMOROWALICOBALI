@@ -7,7 +7,7 @@ using mobile-attendance-app.Services;
 
 namespace mobile-attendance-app.ViewModels
 {
-    public class AttendanceViewModel : INotifyPropertyChanged
+    public class AttendanceViewModel : BaseViewModel
     {
         private readonly ApiService _apiService;
         private readonly CameraService _cameraService;
@@ -17,40 +17,101 @@ namespace mobile-attendance-app.ViewModels
         public AttendanceRecord AttendanceRecord
         {
             get => _attendanceRecord;
+            set => SetProperty(ref _attendanceRecord, value);
+        }
+
+        private string _jobDescription;
+
+        /// <summary>
+        /// Deskripsi pekerjaan yang diisi oleh karyawan.
+        /// </summary>
+        public string JobDescription
+        {
+            get => _jobDescription;
             set
             {
-                _attendanceRecord = value;
-                OnPropertyChanged();
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Deskripsi pekerjaan tidak boleh kosong.");
+                SetProperty(ref _jobDescription, value);
             }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
         }
 
         public ICommand CaptureSelfieCommand { get; }
         public ICommand SubmitAttendanceCommand { get; }
 
-        public AttendanceViewModel()
+        public AttendanceViewModel(ApiService apiService, CameraService cameraService, LocationService locationService)
         {
-            _apiService = new ApiService();
-            _cameraService = new CameraService();
-            _locationService = new LocationService();
+            _apiService = apiService;
+            _cameraService = cameraService;
+            _locationService = locationService;
 
             AttendanceRecord = new AttendanceRecord();
             CaptureSelfieCommand = new Command(async () => await CaptureSelfie());
-            SubmitAttendanceCommand = new Command(async () => await SubmitAttendance());
+            SubmitAttendanceCommand = new Command(async () => await SubmitAttendance(), CanSubmitAttendance);
         }
 
         private async Task CaptureSelfie()
         {
-            var selfieImage = await _cameraService.CaptureImageAsync();
-            AttendanceRecord.SelfieImage = selfieImage;
-            AttendanceRecord.Location = await _locationService.GetCurrentLocationAsync();
+            try
+            {
+                Console.WriteLine("Mengambil foto selfie...");
+                var selfieImage = await _cameraService.CaptureImageAsync();
+                AttendanceRecord.SelfieImage = selfieImage;
+
+                Console.WriteLine("Mengambil lokasi...");
+                AttendanceRecord.Location = await _locationService.GetCurrentLocationAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saat mengambil foto atau lokasi: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Gagal mengambil foto atau lokasi: {ex.Message}", "OK");
+            }
         }
 
         private async Task SubmitAttendance()
         {
-            if (AttendanceRecord != null)
+            IsLoading = true;
+            try
             {
+                if (AttendanceRecord == null)
+                    throw new InvalidOperationException("AttendanceRecord tidak boleh null.");
+
+                if (string.IsNullOrWhiteSpace(AttendanceRecord.SelfieImage))
+                    throw new InvalidOperationException("SelfieImage tidak boleh kosong.");
+
+                if (AttendanceRecord.Location == null)
+                    throw new InvalidOperationException("Lokasi tidak boleh null.");
+
+                if (string.IsNullOrWhiteSpace(JobDescription))
+                    throw new InvalidOperationException("Deskripsi pekerjaan tidak boleh kosong.");
+
                 await _apiService.SubmitAttendanceAsync(AttendanceRecord);
+                Console.WriteLine("Data absensi berhasil dikirim.");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saat mengirim data absensi: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Error", "Gagal mengirim data absensi.", "OK");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private bool CanSubmitAttendance()
+        {
+            return AttendanceRecord != null &&
+                   !string.IsNullOrWhiteSpace(AttendanceRecord.SelfieImage) &&
+                   AttendanceRecord.Location != null &&
+                   !string.IsNullOrWhiteSpace(JobDescription);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -61,3 +122,8 @@ namespace mobile-attendance-app.ViewModels
         }
     }
 }
+
+builder.Services.AddSingleton<ApiService>();
+builder.Services.AddSingleton<CameraService>();
+builder.Services.AddSingleton<LocationService>();
+builder.Services.AddTransient<AttendanceViewModel>();

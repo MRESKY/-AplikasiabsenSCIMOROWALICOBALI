@@ -10,28 +10,47 @@ namespace mobile_attendance_app
         {
             InitializeComponent();
 
-            // Initialize services
-            DependencyService.Register<ApiService>();
-            DependencyService.Register<LocationService>();
-            DependencyService.Register<CameraService>();
+            // Penanganan kesalahan global
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                Console.WriteLine($"Unhandled exception: {e.ExceptionObject}");
+            };
+
+            TaskScheduler.UnobservedTaskException += (sender, e) =>
+            {
+                Console.WriteLine($"Unobserved task exception: {e.Exception}");
+                e.SetObserved();
+            };
 
             // Set the main page
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            base.OnStart();
+            Console.WriteLine("Application started.");
         }
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            base.OnSleep();
+            Console.WriteLine("Application is sleeping.");
         }
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
+            base.OnResume();
+            Console.WriteLine("Application resumed.");
         }
     }
 }
+
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:MobileAttendanceApp.Views"
+       x:Class="MobileAttendanceApp.AppShell">
+
+    <ShellContent Title="Admin Page"
+                  ContentTemplate="{DataTemplate views:AdminPage}" />
+</Shell>

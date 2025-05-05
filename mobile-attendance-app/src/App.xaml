@@ -3,18 +3,36 @@
              x:Class="MobileAttendanceApp.App">
     <Application.Resources>
         <ResourceDictionary>
+            <!-- Warna Global -->
+            <Color x:Key="PrimaryColor">#007AFF</Color>
+            <Color x:Key="SecondaryColor">#FFFFFF</Color>
+            <Color x:Key="PlaceholderColor">Gray</Color>
+
+            <!-- Gaya Global -->
             <Style TargetType="Label">
                 <Setter Property="FontSize" Value="Medium" />
                 <Setter Property="TextColor" Value="Black" />
             </Style>
+
             <Style TargetType="Button">
-                <Setter Property="BackgroundColor" Value="#007AFF" />
-                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="TextColor" Value="{StaticResource SecondaryColor}" />
                 <Setter Property="FontSize" Value="Medium" />
             </Style>
+
             <Style TargetType="Entry">
-                <Setter Property="PlaceholderColor" Value="Gray" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderColor}" />
                 <Setter Property="FontSize" Value="Medium" />
+            </Style>
+
+            <Style TargetType="ActivityIndicator">
+                <Setter Property="Color" Value="{StaticResource PrimaryColor}" />
+            </Style>
+
+            <Style TargetType="Frame">
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="HasShadow" Value="True" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>
