@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-android</TargetFramework>
+    <TargetFrameworks>net8.0-android;net8.0-windows</TargetFrameworks>
     <RootNamespace>MobileAttendanceApp</RootNamespace>
     <AssemblyName>MobileAttendanceApp</AssemblyName>
     <ApplicationTitle>Mobile Attendance App</ApplicationTitle>
@@ -32,13 +32,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="src\App.xaml.cs" />
-    <ProjectReference Include="src\MainPage.xaml.cs" />
+    <ProjectReference Include="src\App.xaml" />
+    <ProjectReference Include="src\MainPage.xaml" />
     <ProjectReference Include="src\ViewModels\LoginViewModel.cs" />
     <ProjectReference Include="src\ViewModels\AttendanceViewModel.cs" />
     <ProjectReference Include="src\ViewModels\AdminViewModel.cs" />
     <ProjectReference Include="src\Models\User.cs" />
-    <ProjectReference Include="src\Models\AttendanceRecord.cs" />
+    <ProjectReference Include="src\Services\AttendanceRecord.cs" />
     <ProjectReference Include="src\Models\Location.cs" />
     <ProjectReference Include="src\Services\ApiService.cs" />
     <ProjectReference Include="src\Services\LocationService.cs" />

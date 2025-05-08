@@ -37,3 +37,5 @@
         </ResourceDictionary>
     </Application.Resources>
 </Application>
+<UseMaui>true</UseMaui>
+<TargetFrameworks>net8.0-android;net8.0-windows</TargetFrameworks>
